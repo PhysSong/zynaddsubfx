@@ -31,7 +31,6 @@ if(PKG_CONFIG_FOUND AND NOT (${CMAKE_SYSTEM_NAME} STREQUAL "Windows"))
     pkg_check_modules(NTK_IMAGES ntk_images)
 
     pkg_check_modules(FFTW REQUIRED fftw3f)
-    pkg_check_modules(MXML REQUIRED mxml)
 
     pkg_check_modules(PORTAUDIO portaudio-2.0>=19)
 
@@ -43,10 +42,11 @@ if(PKG_CONFIG_FOUND AND NOT (${CMAKE_SYSTEM_NAME} STREQUAL "Windows"))
     mark_as_advanced(LIBLO_LIBRARIES)
 else()
     find_package(FFTW REQUIRED)
-    find_package(MXML REQUIRED)
     find_package(LIBLO REQUIRED)
     find_package(PORTAUDIO)
 endif()
+
+find_package(Qt5 COMPONENTS Xml REQUIRED)
 
 CHECK_FUNCTION_EXISTS(sched_setscheduler HAVE_SCHEDULER)
 set(CMAKE_REQUIRED_FLAGS "-std=c++11")
@@ -277,7 +277,7 @@ list(APPEND AUDIO_LIBRARY_DIRS ${LIBLO_LIBRARY_DIRS})
 message(STATUS "Compiling with liblo")
 
 # other include directories
-include_directories(${ZLIB_INCLUDE_DIRS} ${MXML_INCLUDE_DIRS})
+include_directories(${ZLIB_INCLUDE_DIRS} ${Qt5Xml_INCLUDE_DIRS})
 include_directories(${CMAKE_BINARY_DIR}/src) # for zyn-version.h ...
 
 if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
@@ -450,7 +450,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zyn-version.h.in
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zyn-config.h.in
     ${CMAKE_CURRENT_BINARY_DIR}/zyn-config.h)
 
-link_directories(${AUDIO_LIBRARY_DIRS} ${ZLIB_LIBRARY_DIRS} ${FFTW_LIBRARY_DIRS} ${MXML_LIBRARY_DIRS} ${FLTK_LIBRARY_DIRS} ${NTK_LIBRARY_DIRS})
+link_directories(${AUDIO_LIBRARY_DIRS} ${ZLIB_LIBRARY_DIRS} ${FFTW_LIBRARY_DIRS} ${Qt5Xml_LIBRARY_DIRS} ${FLTK_LIBRARY_DIRS} ${NTK_LIBRARY_DIRS})
 
 include_directories(
 	${CMAKE_CURRENT_SOURCE_DIR}
@@ -506,7 +506,7 @@ endif()
 target_link_libraries(zynaddsubfx_core
 	${ZLIB_LIBRARIES}
 	${FFTW_LIBRARIES}
-	${MXML_LIBRARIES}
+	Qt5::Xml
 	${OS_LIBRARIES}
     ${PTHREAD_LIBRARY}
     rtosc rtosc-cpp)
@@ -595,7 +595,7 @@ endmacro()
 
 package_status(PKG_CONFIG_FOUND "PkgConfig" "found"   ${Red})
 package_status(ZLIB_FOUND       "zlib     " "found"   ${Red})
-package_status(MXML_FOUND       "mxml     " "found"   ${Red})
+package_status(Qt5Xml_FOUND     "Qt5::Xml " "found"   ${Red})
 package_status(FFTW_FOUND       "fftw3f   " "found"   ${Red})
 package_status(LIBLO_FOUND      "liblo    " "found"   ${Red})
 package_status(X11_FOUND        "x11      " "found"   ${Yellow})
@@ -621,4 +621,4 @@ package_status(PaEnable         "PA       " "enabled" ${Yellow})
 package_status(HAVE_ASYNC       "c++ async" "usable"  ${Yellow})
 
 
-message(STATUS "Link libraries: ${ZLIB_LIBRARY} ${FFTW_LIBRARY} ${MXML_LIBRARIES} ${AUDIO_LIBRARIES} ${OS_LIBRARIES}")
+message(STATUS "Link libraries: ${ZLIB_LIBRARY} ${FFTW_LIBRARY} Qt5::Xml ${AUDIO_LIBRARIES} ${OS_LIBRARIES}")

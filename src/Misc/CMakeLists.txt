@@ -1,5 +1,3 @@
-include_directories(${MXML_INCLUDE_DIR})
-
 set(zynaddsubfx_misc_SRCS
 	Misc/Bank.cpp
     Misc/BankDb.cpp
@@ -8,7 +6,8 @@ set(zynaddsubfx_misc_SRCS
 	Misc/Microtonal.cpp
 	Misc/Part.cpp
 	Misc/Util.cpp
-	Misc/XMLwrapper.cpp
+#	Misc/XMLwrapper.cpp
+	Misc/QtXmlWrapper.cpp
 	Misc/Recorder.cpp
 	Misc/WavFile.cpp
 	Misc/WaveShapeSmps.cpp

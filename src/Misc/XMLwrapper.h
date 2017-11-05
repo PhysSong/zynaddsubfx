@@ -13,6 +13,9 @@
   of the License, or (at your option) any later version.
 */
 
+#if 1
+#include "QtXmlWrapper.h"
+#else
 #include <mxml.h>
 #include <string>
 #include <vector>
@@ -289,4 +292,5 @@ public:
 
 }
 
+#endif
 #endif
