@@ -36,8 +36,8 @@ class FFTwrapper
     private:
         int fftsize;
         fftw_real    *time;
-        fftw_complex *fft;
-        fftw_plan     planfftw, planfftw_inv;
+        fftwf_complex *fft;
+        fftwf_plan     planfftw, planfftw_inv;
 };
 
 /*
