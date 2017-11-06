@@ -22,6 +22,7 @@
 
 #include "../Nio/Nio.h"
 
+#if USE_NSM
 #if defined(FLTK_UI) || defined(NTK_UI)
 #include <FL/Fl.H>
 #endif
@@ -169,3 +170,4 @@ NSM_Client::command_active(bool active)
     }
 #endif
 }
+#endif
