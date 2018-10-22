@@ -84,19 +84,16 @@ void ZynOscPlugin::ui_ext_show(bool show)
                 {
                     std::string fusion = zyn::fusion_dir;
                     fusion += "/zest";
-                    if(access(fusion.c_str(), X_OK))
-                        fputs("Warning: CMake's ZynFusionDir does not contain a"
-                              "\"zest\" binary - ignoring.", stderr);
-                    else {
-                        const char* cur = getenv("LD_LIBRARY_PATH");
-                        std::string ld_library_path = zyn::fusion_dir;
-                        if(cur) {
-                            ld_library_path += ":";
-                            ld_library_path += cur;
-                        }
-                        setenv("LD_LIBRARY_PATH", ld_library_path.c_str(), 1);
-                        exec_fusion(fusion.c_str());
+                    const char* cur = getenv("LD_LIBRARY_PATH");
+                    std::string ld_library_path = zyn::fusion_dir;
+                    ld_library_path += ":./plugins"; // LMMS, TODO replace with a list
+                    if(cur) {
+                        ld_library_path += ":";
+                        ld_library_path += cur;
                     }
+                    setenv("LD_LIBRARY_PATH", ld_library_path.c_str(), 1);
+                    exec_fusion(fusion.c_str());
+                    exec_fusion("plugins/zest");
                 }
                 exec_fusion("./zyn-fusion");
                 exec_fusion("zyn-fusion");
